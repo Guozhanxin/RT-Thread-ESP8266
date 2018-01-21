@@ -1,0 +1,15 @@
+Import('RTT_ROOT')
+Import('rtconfig')
+from building import *
+
+cwd     = os.path.join(str(Dir('#')), 'lib')
+src = Split("""
+libcpu.c
+fmq.c
+""")
+
+CPPPATH = [cwd]
+
+group = DefineGroup('lib', src, depend = [''], CPPPATH = CPPPATH)
+
+Return('group')

@@ -1,0 +1,31 @@
+import rtconfig
+Import('RTT_ROOT')
+from building import *
+
+# get current directory
+cwd = GetCurrentDir()
+
+# The set of source files associated with this SConscript file.
+src = Split("""
+    driver_lib/driver/drv_uart.c
+""")
+
+path = [cwd + '/include/espressif', 
+    cwd + '/extra_include',
+	cwd + '/include',    
+	cwd + '/include/freertos',
+    cwd + '/include/lwip',
+    cwd + '/include/lwip/arch',
+    cwd + '/include/lwip/ipv4',
+    cwd + '/include/lwip/ipv6']
+
+path += [cwd + '/driver_lib/include']
+
+LIBS = ['minic', 'gcc', 'hal', 'phy', 'pp', 'net80211', 'wpa', 'crypto', 'main', 'espconn', 'smartconfig', 'airkiss', 'lwip']
+LIBPATH = [cwd + '/lib']
+
+CPPDEFINES = ['ICACHE_FLASH']
+#'MEMLEAK_DEBUG', 'ICACHE_FLASH'
+group = DefineGroup('Libraries', src, depend = [''], CPPPATH = path, CPPDEFINES = CPPDEFINES, LIBS = LIBS, LIBPATH = LIBPATH)
+
+Return('group')
